@@ -1,21 +1,8 @@
 // Main Script
-/*
-TODO LIST
-1X. Make a starter inquirer prompt that provides choices that lead to each function(view all departments/roles/employees, add a department/role/employee, and update an employee role)
-2X. Make sure the SQL db is linked so that you can have these choices show any of these requests
-3X. Choosing all departments should show a table with all department names and ids
-4X. Choosing all roles should show a table with job titles, role ids, the department the role belonds to, and the salary
-5X. Choosing all employees should show a table with all employee data, featuring ids, first and last names, job titles, departments, salaries, and managers for that employee
-6. Adding department should have a prompt to type in a department, and then add it to the database
-7. Adding a role shhould prompt to add the name, salary and department and then add it to the database.
-8. Adding an employee should prompt to add the first and last name, role, and manager and then should add it to the database
-9. Updating the employee role should prompt to select an employee and their new role via choices, and then update it to the database
-*/
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 
-
-
+// Main Menu Prompt
 const mainMenu = [
     {
         type: 'list',
@@ -25,6 +12,7 @@ const mainMenu = [
     },
 ];
 
+// mysql Connection
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -37,7 +25,7 @@ const db = mysql.createConnection(
 
 // View table functions
 var viewAllEmployees = function () {
-    db.query('SELECT employee.id AS "Employee ID", employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.title AS Role, department.name AS Department FROM employee LEFT JOIN roles ON employee.roles_id = roles.id LEFT JOIN department ON roles.department_id = department.id', (err, data) => {
+    db.query('SELECT employee.id AS "Employee ID", employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.salary AS Salary, roles.title AS Role, department.name AS Department FROM employee LEFT JOIN roles ON employee.roles_id = roles.id LEFT JOIN department ON roles.department_id = department.id', (err, data) => {
         if (err) {
             console.error(err);
             return;

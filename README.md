@@ -34,11 +34,16 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
 ```
 
+## Installation Instructions
+
+To install, simply download the files first. After that, you should copy and paste the schema and seeds.sql files into your MySQL workbench, and then from there you will have your database initialized. After that, just simply install the node modules by typing in npm i, and then start the application with npm start.
+
 ## The Completed Challenge
+![alt text](./images/example.png "Employee Database Example")
 
-After completing the challenge, we should now have a working index.js file that will allow you to answer a series of questions now. From there, after completing these questions, you should be presented with a new .SVG file in your folder after you have downloaded this file.
+After completing the challenge, we should now have a working index.js file that will allow you to manage an employee database using node and MySql. From there, you can select which option you would like to choose, and even create employees, roles, and departments through some choices.
 
-To view a demo of this application, please click [here.](https://drive.google.com/file/d/10HVT6rJ-OYl9dtL9rxSMAW0NvuIWFe2e/view?usp=sharing) If you would like to view a sample SVG, you may click [here](https://drive.google.com/file/d/18PRtZMQcuqcXPftJhyPF8oAJ3JuqxzL2/view?usp=sharing) as well.
+To view a demo of this application, please click [here.](https://drive.google.com/file/d/1-rJlOVyOI98UNUf0NzZ5wZd7YaNLiaPH/view?usp=sharing).
 
 ## Credits
 This code was completed by Zachary Roy
