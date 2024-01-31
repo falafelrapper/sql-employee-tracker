@@ -1,11 +1,11 @@
 // Main Script
 /*
 TODO LIST
-1. Make a starter inquirer prompt that provides choices that lead to each function(view all departments/roles/employees, add a department/role/employee, and update an employee role)
-2. Make sure the SQL db is linked so that you can have these choices show any of these requests
-3. Choosing all departments should show a table with all department names and ids
-4. Choosing all roles should show a table with job titles, role ids, the department the role belonds to, and the salary
-5. Choosing all employees should show a table with all employee data, featuring ids, first and last names, job titles, departments, salaries, and managers for that employee
+1X. Make a starter inquirer prompt that provides choices that lead to each function(view all departments/roles/employees, add a department/role/employee, and update an employee role)
+2X. Make sure the SQL db is linked so that you can have these choices show any of these requests
+3X. Choosing all departments should show a table with all department names and ids
+4X. Choosing all roles should show a table with job titles, role ids, the department the role belonds to, and the salary
+5X. Choosing all employees should show a table with all employee data, featuring ids, first and last names, job titles, departments, salaries, and managers for that employee
 6. Adding department should have a prompt to type in a department, and then add it to the database
 7. Adding a role shhould prompt to add the name, salary and department and then add it to the database.
 8. Adding an employee should prompt to add the first and last name, role, and manager and then should add it to the database
@@ -36,7 +36,7 @@ const db = mysql.createConnection(
 );
 
 var viewAllEmployees = function () {
-    db.query('SELECT * FROM employees', (err, data) => {
+    db.query('SELECT * FROM employee', (err, data) => {
         console.log(data)
         init();
     })
@@ -58,7 +58,7 @@ var addRole = function () {
 };
 
 var viewAllDepartments = function () {
-    db.query('SELECT * FROM departments', (err, data) => {
+    db.query('SELECT * FROM department', (err, data) => {
         console.log(data)
         init();
     })
@@ -71,7 +71,16 @@ var addDepartment = function () {
             message: 'What is the name of the department?',
             name: 'dept_name',
         },
-    ])
+    ]).then(dept_answers => {
+        db.query(`INSERT INTO department (name) VALUES (${dept_answers.dept_name})`, (err, data) => {
+            if (err) {
+                res.status(400).json({ error: err.message });
+                return;
+            }
+            console.log('New department added');
+            init();
+        });
+    })
 
 };
 
