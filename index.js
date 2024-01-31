@@ -37,7 +37,7 @@ const db = mysql.createConnection(
 
 // View table functions
 var viewAllEmployees = function () {
-    db.query('SELECT employee.id AS "Employee ID", employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.title AS Role FROM employee LEFT JOIN roles ON employee.roles_id = roles.id', (err, data) => {
+    db.query('SELECT employee.id AS "Employee ID", employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.title AS Role, department.name AS Department FROM employee LEFT JOIN roles ON employee.roles_id = roles.id LEFT JOIN department ON roles.department_id = department.id', (err, data) => {
         if (err) {
             console.error(err);
             return;
