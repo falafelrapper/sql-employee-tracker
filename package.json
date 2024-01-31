@@ -4,14 +4,14 @@
     "description": "Code to track employees in a database",
     "main": "index.js",
     "scripts": {
-      "start": "node index.js",
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "node index.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "express": "^4.17.1",
-      "mysql2": "^2.2.5",
-      "inquirer": "^8.2.4"
+        "console.table": "^0.10.0",
+        "express": "^4.17.1",
+        "inquirer": "^8.2.4",
+        "mysql2": "^2.2.5"
     }
-  }
+}

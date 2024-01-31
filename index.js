@@ -21,7 +21,7 @@ const mainMenu = [
         type: 'list',
         message: 'What would you like to do?',
         name: 'main',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department'],
+        choices: ['View All Employees', 'View All Roles', 'View All Departments', 'Add Employee', 'Add Role', 'Add Department', 'Update Employee Role'],
     },
 ];
 
@@ -37,7 +37,7 @@ const db = mysql.createConnection(
 
 var viewAllEmployees = function () {
     db.query('SELECT * FROM employee', (err, data) => {
-        console.log(data)
+        console.table(data)
         init();
     })
 };
@@ -48,18 +48,64 @@ var addEmployee = function () {
 
 var viewAllRoles = function () {
     db.query('SELECT * FROM roles', (err, data) => {
-        console.log(data)
+        console.table(data)
         init();
     })
 };
 
 var addRole = function () {
+    // Fetch the list of departments from the database
+    db.query('SELECT * FROM department', (err, departments) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
 
+        // Extract department names from the result
+        const departmentChoices = departments.map(department => department.name);
+
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: 'What is the name of the role?',
+                name: 'role_name',
+            },
+            {
+                type: 'input',
+                message: 'What is the salary for that role?',
+                name: 'role_salary',
+            },
+            {
+                type: 'list',
+                message: 'Select the department for that role:',
+                name: 'role_dept',
+                choices: departmentChoices,
+            },
+        ]).then(role_answers => {
+            const selectedDepartment = departments.find(department => department.name === role_answers.role_dept);
+
+            if (!selectedDepartment) {
+                console.error('Invalid department selected');
+                init();
+                return;
+            }
+
+            db.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${role_answers.role_name}",  ${role_answers.role_salary}, ${selectedDepartment.id})`,
+                (err, data) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    console.log('New role added');
+                    init();
+                });
+        });
+    });
 };
 
 var viewAllDepartments = function () {
     db.query('SELECT * FROM department', (err, data) => {
-        console.log(data)
+        console.table(data)
         init();
     })
 };
@@ -72,9 +118,9 @@ var addDepartment = function () {
             name: 'dept_name',
         },
     ]).then(dept_answers => {
-        db.query(`INSERT INTO department (name) VALUES (${dept_answers.dept_name})`, (err, data) => {
+        db.query(`INSERT INTO department (name) VALUES ("${dept_answers.dept_name}")`, (err, data) => {
             if (err) {
-                res.status(400).json({ error: err.message });
+                console.error(err)
                 return;
             }
             console.log('New department added');
